@@ -2,10 +2,12 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import Avatar from "../../../avatar";
+import Avatar from "../../../components/avatar";
 import UserMenuItem from "./menu-item";
+import userRegisterModal from "@/app/hooks/useRegisterModal";
 
 const UserMenu = () => {
+  const { onOpen } = userRegisterModal();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -62,7 +64,7 @@ const UserMenu = () => {
           <div className="flex flex-col cursor-pointer">
             <>
               <UserMenuItem onClick={() => {}} label="Login" />
-              <UserMenuItem onClick={() => {}} label="Sign up" />
+              <UserMenuItem onClick={onOpen} label="Sign up" />
             </>
           </div>
         </div>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Nunito } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/layout/navbar";
+import Navbar from "./layout/navbar";
+import RegisterModal from "./layout/modals/register";
 
 export const metadata: Metadata = {
   title: "Dadabnb",
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+        <RegisterModal />
         <Navbar />
         {children}
       </body>
