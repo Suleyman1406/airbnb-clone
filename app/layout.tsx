@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./layout/navbar";
 import RegisterModal from "./layout/modals/register";
 import ToasterProvider from "./providers/ToasterProvider";
+import LoginModal from "./layout/modals/login";
 
 export const metadata: Metadata = {
   title: "Dadabnb",
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <ToasterProvider />
+        <LoginModal />
         <RegisterModal />
         <Navbar />
         {children}

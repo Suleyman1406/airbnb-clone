@@ -10,10 +10,15 @@ import Heading from "@/app/components/heading";
 import Input from "@/app/components/input";
 import toast from "react-hot-toast";
 import Button from "@/app/components/button";
+import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const RegisterModal = () => {
-  const { isOpen, onClose } = useRegisterModal();
+const LoginModal = () => {
+  const registerModal = useRegisterModal();
+  const router = useRouter();
+  const { isOpen, onClose } = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -22,7 +27,6 @@ const RegisterModal = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -31,38 +35,30 @@ const RegisterModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = useCallback(
     (data) => {
       setIsLoading(true);
+      signIn("credentials", { ...data, redirect: false }).then((callback) => {
+        setIsLoading(false);
 
-      axios
-        .post("/api/register", data)
-        .then((response) => {
+        if (callback?.ok) {
+          toast.success("Logged in");
+          router.refresh();
           onClose();
-        })
-        .catch((err) => {
-          toast.error("Something went wrong!");
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+        }
+        if (callback?.error) {
+          toast.error(callback.error);
+        }
+      });
     },
-    [onClose]
+    [router, onClose]
   );
 
   const bodyContent = useMemo(
     () => (
       <div className="flex flex-col gap-4">
-        <Heading title="Welcome to Airbnb" subtitle="Create an account" />
+        <Heading title="Welcome back" subtitle="Login to your account!" />
         <Input
           required
           id="email"
           label="Email"
-          errors={errors}
-          disabled={isLoading}
-          register={register}
-        />
-        <Input
-          required
-          id="name"
-          label="Name"
           errors={errors}
           disabled={isLoading}
           register={register}
@@ -112,7 +108,7 @@ const RegisterModal = () => {
   return (
     <Modal
       onSubmit={handleSubmit(onSubmit)}
-      title="Register"
+      title="Login"
       actionLabel="Continue"
       isOpen={isOpen}
       disabled={isLoading}
@@ -123,4 +119,4 @@ const RegisterModal = () => {
   );
 };
 
-export default RegisterModal;
+export default LoginModal;
