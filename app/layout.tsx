@@ -5,6 +5,7 @@ import Navbar from "./layout/navbar";
 import RegisterModal from "./layout/modals/register";
 import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "./layout/modals/login";
+import getCurrentUser from "./actions/getCurrentUser";
 
 export const metadata: Metadata = {
   title: "Dadabnb",
@@ -15,18 +16,19 @@ const font = Nunito({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const currentUser = await getCurrentUser();
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body className={font.className} suppressHydrationWarning={true}>
         <ToasterProvider />
         <LoginModal />
         <RegisterModal />
-        <Navbar />
+        <Navbar currentUser={currentUser} />
         {children}
       </body>
     </html>
