@@ -10,9 +10,12 @@ import Map from "@/app/components/map";
 import Modal from "@/app/components/modal";
 import { categories } from "@/app/constant";
 import useRentModal from "@/app/hooks/useRentModal";
+import axios from "axios";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 enum STEPS {
   CATEGORY = 0,
@@ -24,6 +27,7 @@ enum STEPS {
 }
 
 const RentModal = () => {
+  const router = useRouter();
   const rentModal = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
@@ -73,6 +77,36 @@ const RentModal = () => {
 
   const onBack = () => setStep((value) => value - 1);
   const onNext = () => setStep((value) => value + 1);
+
+  const onSubmit: SubmitHandler<FieldValues> = useCallback(
+    (data) => {
+      if (step !== STEPS.PRICE) {
+        return onNext();
+      }
+      setIsLoading(true);
+
+      axios
+        .post("/api/listings", data)
+        .then(() => {
+          toast.success("Listing created!");
+          router.refresh();
+          reset();
+          setStep(STEPS.CATEGORY);
+          rentModal.onClose();
+        })
+        .catch((err) => {
+          let error = err.response.data;
+          if (!error) {
+            error = "Something went wrong!";
+          }
+          toast.error(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    },
+    [step, router, reset, rentModal]
+  );
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
@@ -230,14 +264,15 @@ const RentModal = () => {
 
   return (
     <Modal
+      body={bodyContent}
+      disabled={isLoading}
       title="Airbnb your home!"
+      actionLabel={actionLabel}
       isOpen={rentModal.isOpen}
       onClose={rentModal.onClose}
-      onSubmit={onNext}
-      actionLabel={actionLabel}
+      onSubmit={handleSubmit(onSubmit)}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-      body={bodyContent}
     />
   );
 };
