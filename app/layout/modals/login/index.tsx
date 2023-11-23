@@ -17,8 +17,8 @@ import { useRouter } from "next/navigation";
 
 const LoginModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const router = useRouter();
-  const { isOpen, onClose } = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -41,14 +41,14 @@ const LoginModal = () => {
         if (callback?.ok) {
           toast.success("Logged in");
           router.refresh();
-          onClose();
+          loginModal.onClose();
         }
         if (callback?.error) {
           toast.error(callback.error);
         }
       });
     },
-    [router, onClose]
+    [router, loginModal]
   );
 
   const bodyContent = useMemo(
@@ -94,12 +94,15 @@ const LoginModal = () => {
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex flex-row justify-center items-center gap-2">
-          <div>Already have an account?</div>
+          <div>First time using Airbnb?</div>
           <div
-            onClick={onClose}
+            onClick={() => {
+              loginModal.onClose();
+              registerModal.onOpen();
+            }}
             className="text-stone-800 cursor-pointer hover:underline"
           >
-            Log in
+            Create an account
           </div>
         </div>
       </div>
@@ -110,9 +113,9 @@ const LoginModal = () => {
       onSubmit={handleSubmit(onSubmit)}
       title="Login"
       actionLabel="Continue"
-      isOpen={isOpen}
+      isOpen={loginModal.isOpen}
       disabled={isLoading}
-      onClose={onClose}
+      onClose={loginModal.onClose}
       body={bodyContent}
       footer={footerContent}
     />
