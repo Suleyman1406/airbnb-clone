@@ -1,6 +1,7 @@
 "use client";
 
 import CategoryInput from "@/app/components/category-input";
+import CounterInput from "@/app/components/counter-input";
 import CountrySelect from "@/app/components/country-select";
 import Heading from "@/app/components/heading";
 import Map from "@/app/components/map";
@@ -47,6 +48,9 @@ const RentModal = () => {
 
   const categoryValue = watch("category");
   const locationValue = watch("location");
+  const guestCountValue = watch("guestCount");
+  const roomCountValue = watch("roomCount");
+  const bathroomCountValue = watch("bathroomCount");
 
   const Map = useMemo(
     () => dynamic(() => import("@/app/components/map"), { ssr: false }),
@@ -115,11 +119,51 @@ const RentModal = () => {
               onChange={(value) => setCustomValue("location", value)}
               value={locationValue}
             />
-            <Map center={locationValue?.latlng} />
+            <div className="min-h-[35vh]">
+              <Map center={locationValue?.latlng} />
+            </div>
+          </div>
+        );
+      case STEPS.INFO:
+        return (
+          <div className="flex flex-col gap-8">
+            <Heading
+              title="Share some basics about your place"
+              subtitle="What amenities do you have?"
+            />
+            <CounterInput
+              value={guestCountValue}
+              onChange={(value) => setCustomValue("guestCount", value)}
+              title="Guests"
+              subTitle="How many guests do you allow?"
+            />
+            <hr />
+            <CounterInput
+              value={roomCountValue}
+              onChange={(value) => setCustomValue("roomCount", value)}
+              title="Rooms"
+              subTitle="How many rooms do you have?"
+            />
+            <hr />
+            <CounterInput
+              value={bathroomCountValue}
+              onChange={(value) => setCustomValue("bathroomCount", value)}
+              title="Bathrooms"
+              subTitle="How many bathrooms do you have?"
+            />
           </div>
         );
     }
-  }, [step, categoryValue, setCustomValue, locationValue]);
+  }, [
+    step,
+    Map,
+    categoryValue,
+    setCustomValue,
+    locationValue,
+    guestCountValue,
+    roomCountValue,
+    bathroomCountValue,
+  ]);
 
   return (
     <Modal
