@@ -5,6 +5,7 @@ import CounterInput from "@/app/components/counter-input";
 import CountrySelect from "@/app/components/country-select";
 import Heading from "@/app/components/heading";
 import ImageUpload from "@/app/components/image-upload";
+import Input from "@/app/components/input";
 import Map from "@/app/components/map";
 import Modal from "@/app/components/modal";
 import { categories } from "@/app/constant";
@@ -25,7 +26,7 @@ enum STEPS {
 const RentModal = () => {
   const rentModal = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
-
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -168,10 +169,56 @@ const RentModal = () => {
             />
           </div>
         );
+      case STEPS.DESCRIPTION:
+        return (
+          <div className="flex flex-col gap-8 ">
+            <Heading
+              title="How would you describe your place?"
+              subtitle="Short and sweet works best!"
+            />
+            <Input
+              required
+              id="title"
+              label="Title"
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+            />
+            <hr />
+            <Input
+              required
+              id="description"
+              label="Description"
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+            />
+          </div>
+        );
+      case STEPS.PRICE:
+        return (
+          <div className="flex flex-col gap-8 ">
+            <Heading
+              title="Now set your price?"
+              subtitle="How much do you charge per night!"
+            />
+            <Input
+              formatPrice
+              id="price"
+              label="Price"
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+            />
+          </div>
+        );
     }
   }, [
-    step,
     Map,
+    step,
+    errors,
+    register,
+    isLoading,
     categoryValue,
     locationValue,
     imageSrcValue,
