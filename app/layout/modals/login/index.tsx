@@ -84,13 +84,13 @@ const LoginModal = () => {
         outline
         label="Continue with Google"
         Icon={FcGoogle}
-        onClick={() => 0}
+        onClick={() => signIn("google")}
       />
       <Button
         outline
         label="Continue with Github"
         Icon={AiFillGithub}
-        onClick={() => 0}
+        onClick={() => signIn("github")}
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex flex-row justify-center items-center gap-2">
