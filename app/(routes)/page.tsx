@@ -1,8 +1,8 @@
-import getCurrentUser from "./actions/getCurrentUser";
-import getListings from "./actions/getListings";
-import Container from "./components/container";
-import EmptyState from "./components/empty-state";
-import ListingCard from "./components/listing-card";
+import getCurrentUser from "../actions/getCurrentUser";
+import getListings from "../actions/getListings";
+import Container from "../components/container";
+import EmptyState from "../components/empty-state";
+import ListingCard from "../components/listing-card";
 
 export default async function Home() {
   const listings = await getListings();

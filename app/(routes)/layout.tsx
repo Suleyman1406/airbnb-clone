@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Inter, Nunito } from "next/font/google";
-import "./globals.css";
-import Navbar from "./layout/navbar";
-import RegisterModal from "./layout/modals/register";
-import ToasterProvider from "./providers/ToasterProvider";
-import LoginModal from "./layout/modals/login";
-import getCurrentUser from "./actions/getCurrentUser";
-import RentModal from "./layout/modals/rent";
+import "../globals.css";
+import Navbar from "../layout/navbar";
+import RegisterModal from "../layout/modals/register";
+import ToasterProvider from "../providers/ToasterProvider";
+import LoginModal from "../layout/modals/login";
+import getCurrentUser from "../actions/getCurrentUser";
+import RentModal from "../layout/modals/rent";
 
 export const metadata: Metadata = {
   title: "Dadabnb",
