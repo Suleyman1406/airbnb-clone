@@ -1,4 +1,5 @@
 "use client";
+import useFavorite from "@/app/hooks/useFavorite";
 import { SafeUser } from "@/app/types";
 import { cn } from "@/app/utils/helper";
 import React from "react";
@@ -10,12 +11,17 @@ interface IHeartButtonProps {
 }
 
 const HeartButton = ({ listingId, currentUser }: IHeartButtonProps) => {
-  const hasFavorited = false;
-  const toggleFavorite = () => {};
+  const { hasFavorited, toggleFavorite } = useFavorite({
+    listingId,
+    currentUser,
+  });
   return (
     <div
       onClick={toggleFavorite}
-      className="relative hover:opacity-80 transition cursor-pointer"
+      className={cn(
+        "relative hover:opacity-80 transition cursor-pointer",
+        hasFavorited && "heart-btn-animation"
+      )}
     >
       <AiOutlineHeart
         size={28}
@@ -23,7 +29,7 @@ const HeartButton = ({ listingId, currentUser }: IHeartButtonProps) => {
       />
       <AiFillHeart
         size={24}
-        className={cn(hasFavorited ? "fill-rose-500" : "fill-neutral-500/70")}
+        className={cn(hasFavorited ? "fill-rose-500 " : "fill-neutral-500/70")}
       />
     </div>
   );
