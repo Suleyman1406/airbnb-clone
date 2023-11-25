@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { categories } from "@/app/constant";
-import { SafeListing, SafeUser } from "@/app/types";
+import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 
 import Container from "@/app/components/container";
 import ListingHead from "@/app/components/listing/head";
@@ -25,7 +25,7 @@ const initialDateRange = {
 interface IListingDetailProps {
   listing: SafeListing & { user: SafeUser };
   currentUser?: SafeUser | null;
-  reservations?: Reservation[];
+  reservations?: SafeReservation[];
 }
 const ListingDetail = ({
   listing,
@@ -45,7 +45,6 @@ const ListingDetail = ({
         start: new Date(reservation.startDate),
         end: new Date(reservation.endDate),
       });
-      // dates.push(...range);
       dates = [...dates, ...range];
     });
     return dates;
@@ -72,7 +71,7 @@ const ListingDetail = ({
         toast.success("Listing reserved!");
         setDateRange(initialDateRange);
 
-        router.refresh(); // will change to redirect
+        router.push("/trips");
       })
       .catch(() => {
         toast.error("Something went wrong!");

@@ -1,6 +1,4 @@
-import type { Metadata } from "next";
-import { Inter, Nunito } from "next/font/google";
-import "../globals.css";
+import { Nunito } from "next/font/google";
 import Navbar from "../layout/navbar";
 import RegisterModal from "../layout/modals/register";
 import ToasterProvider from "../providers/ToasterProvider";
@@ -8,8 +6,9 @@ import LoginModal from "../layout/modals/login";
 import getCurrentUser from "../actions/getCurrentUser";
 import RentModal from "../layout/modals/rent";
 import ClientOnly from "../components/client-only";
+import "../globals.css";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Dadabnb",
   description: "Airbnb clone",
 };
