@@ -25,15 +25,14 @@ const Trips = ({ reservations, currentUser }: ITripsProps) => {
   const onCancel = useCallback(
     (id: string) => {
       setDeletingId(id);
-
       axios
-        .delete(`/reservations/${id}`)
+        .delete(`/api/reservations/${id}`)
         .then(() => {
           toast.success("Reservation canceled");
+          router.refresh();
         })
         .catch((err) => {
           toast.error(err?.response?.data.error ?? "Something went wrong!");
-          router.refresh();
         })
         .finally(() => {
           setDeletingId("");
