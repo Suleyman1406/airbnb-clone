@@ -45,7 +45,8 @@ const ListingDetail = ({
         start: new Date(reservation.startDate),
         end: new Date(reservation.endDate),
       });
-      dates.push(...range);
+      // dates.push(...range);
+      dates = [...dates, ...range];
     });
     return dates;
   }, [reservations]);
