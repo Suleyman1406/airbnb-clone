@@ -23,6 +23,7 @@ const RegisterModal = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FieldValues>({
     defaultValues: {
       name: "",
@@ -37,17 +38,20 @@ const RegisterModal = () => {
 
       axios
         .post("/api/register", data)
-        .then((response) => {
+        .then(() => {
+          toast.success("User created!");
           registerModal.onClose();
+          loginModal.onOpen();
+          reset();
         })
         .catch((err) => {
-          toast.error("Something went wrong!");
+          toast.error(err.response?.data ?? "Something went wrong!");
         })
         .finally(() => {
           setIsLoading(false);
         });
     },
-    [registerModal]
+    [registerModal, loginModal, reset]
   );
 
   const bodyContent = useMemo(
