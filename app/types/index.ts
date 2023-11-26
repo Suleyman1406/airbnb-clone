@@ -30,3 +30,14 @@ export type CountrySelectValue = {
   region: string;
   value: string;
 };
+
+export interface ISearchListingParams {
+  userId?: string;
+  guestCount?: number;
+  roomCount?: number;
+  bathroomCount?: number;
+  startDate?: string;
+  endDate?: string;
+  locationValue?: string;
+  category?: string;
+}

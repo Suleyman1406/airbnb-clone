@@ -1,18 +1,53 @@
 import prisma from "@/app/libs/prismadb";
-import { SafeListing } from "../types";
-
-interface IParams {
-  userId?: string;
-}
+import { ISearchListingParams, SafeListing } from "../types";
 
 export default async function getListings(
-  params: IParams
+  params: ISearchListingParams
 ): Promise<SafeListing[]> {
   try {
+    const {
+      userId,
+      guestCount,
+      roomCount,
+      bathroomCount,
+      startDate,
+      endDate,
+      locationValue,
+      category,
+    } = params;
+
     const query: any = {};
-    if (params.userId) {
-      query.userId = params.userId;
+    if (userId) {
+      query.userId = userId;
     }
+    if (category) {
+      query.category = category;
+    }
+    if (roomCount) {
+      query.roomCount = { gte: +roomCount };
+    }
+    if (guestCount) {
+      query.guestCount = { gte: +guestCount };
+    }
+    if (bathroomCount) {
+      query.bathroomCount = { gte: +bathroomCount };
+    }
+    if (locationValue) {
+      query.locationValue = locationValue;
+    }
+    if (startDate && endDate) {
+      query.NOT = {
+        reservation: {
+          some: {
+            OR: [
+              { endDate: { gte: startDate }, startDate: { lte: startDate } },
+              { startDate: { gte: endDate }, endDate: { lte: endDate } },
+            ],
+          },
+        },
+      };
+    }
+
     const listings = await prisma.listing.findMany({
       where: query,
       orderBy: {
