@@ -1,11 +1,12 @@
 import { Nunito } from "next/font/google";
-import Navbar from "../layout/navbar";
-import RegisterModal from "../layout/modals/register";
-import ToasterProvider from "../providers/ToasterProvider";
-import LoginModal from "../layout/modals/login";
-import getCurrentUser from "../actions/getCurrentUser";
-import RentModal from "../layout/modals/rent";
-import ClientOnly from "../components/client-only";
+import Navbar from "@/app/layout/navbar";
+import RegisterModal from "@/app/layout/modals/register";
+import ToasterProvider from "@/app/providers/ToasterProvider";
+import LoginModal from "@/app/layout/modals/login";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import RentModal from "@/app/layout/modals/rent";
+import ClientOnly from "@/app/components/client-only";
+import SearchModal from "@/app/layout/modals/search";
 import "../globals.css";
 
 export const metadata = {
@@ -31,6 +32,7 @@ export default async function RootLayout({
           <LoginModal />
           <RegisterModal />
           <RentModal />
+          <SearchModal />
           <Navbar currentUser={currentUser} />
         </ClientOnly>
         <div className="pb-20 pt-28">{children}</div>

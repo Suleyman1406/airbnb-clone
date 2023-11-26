@@ -38,7 +38,7 @@ const CountrySelect = ({ value, onChange }: ICountrySelectProps) => {
           ...theme,
           borderRadius: 6,
           colors: {
-            ...theme.colors,
+            ...(theme?.colors ?? {}),
             primary: "black",
             primary25: "#ffe4e6",
             primary50: "#ffcacd",

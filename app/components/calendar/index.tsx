@@ -18,6 +18,7 @@ const Calendar = ({ value, disabledDates, onChange }: ICalendarProps) => {
       direction="vertical"
       showDateDisplay={false}
       minDate={new Date()}
+      date={new Date()}
       disabledDates={disabledDates}
     />
   );
