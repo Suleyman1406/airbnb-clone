@@ -7,7 +7,7 @@ import ListingCard from "../components/listing/card";
 
 export default async function Home() {
   const [listings, currentUser] = await Promise.all([
-    getListings(),
+    getListings({}),
     getCurrentUser(),
   ]);
 
