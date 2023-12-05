@@ -24,8 +24,8 @@ const PropertiesPage = async () => {
     return (
       <ClientOnly>
         <EmptyState
-          title="No favorites found"
-          subTitle="Looks like you have no favorite listings."
+          title="No property found"
+          subTitle="Looks like you don't have property yet."
         />
       </ClientOnly>
     );
